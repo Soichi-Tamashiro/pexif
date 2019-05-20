@@ -1168,7 +1168,7 @@ class JpegFile:
         self._segments = new_seg + self._segments
 
     def get_geo(self):
-        """Return a tuple of (latitude, longitude)."""
+        """Return a tuple of (latitude, longitude, altitude)."""
         def convert(x):
             (deg, min, sec) = x
             return (float(deg.num) / deg.den) +  \
@@ -1181,12 +1181,13 @@ class JpegFile:
         gps = self.exif.primary.GPS
         lat = convert(gps.GPSLatitude)
         lng = convert(gps.GPSLongitude)
+        alt = float(gps.GPSAltitude)
         if gps.GPSLatitudeRef == "S":
             lat = -lat
         if gps.GPSLongitudeRef == "W":
             lng = -lng
 
-        return lat, lng
+        return lat, lng ,alt
 
     SEC_DEN = 50000000
 
