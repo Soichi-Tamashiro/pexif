@@ -1177,11 +1177,14 @@ class JpegFile:
         if not hasattr(self.exif.primary, 'GPSIFD'):
             raise self.NoSection, "File %s doesn't have a GPS section." % \
                 self.filename
+        def convert2(x):
+            distance = x[0]
+            return (float(distance.num)/distance.den)+ 0.0
 
         gps = self.exif.primary.GPS
         lat = convert(gps.GPSLatitude)
         lng = convert(gps.GPSLongitude)
-        alt = float(gps.GPSAltitude)
+        alt = convert2(gps.GPSAltitude)
         if gps.GPSLatitudeRef == "S":
             lat = -lat
         if gps.GPSLongitudeRef == "W":
